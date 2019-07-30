@@ -1,0 +1,24 @@
+{
+  "name": "lesson_8",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/itea-js-adv-10-2018/lesson_8.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/itea-js-adv-10-2018/lesson_8/issues"
+  },
+  "homepage": "https://gitlab.com/itea-js-adv-10-2018/lesson_8#readme"
+}

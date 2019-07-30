@@ -1,0 +1,33 @@
+@import (less, reference) url("../tmp/sprite.less");
+@import (less, reference) url("variables.less");
+
+html{
+  background: blue;
+}
+.tetstst{
+  width: 100px;
+}
+.header{
+  width: 100%;
+  height: 50px;
+  background: @blue;
+
+  &__block{
+    width: 100px;
+    color: @blue;
+    display: flex;
+  }
+  &__icon{
+    .svg__packing;
+  }
+  &__icon2{
+    .svg__user;
+  }
+  &__icon3{
+
+  }
+};
+
+.box{
+    .svg__loadMore;
+}

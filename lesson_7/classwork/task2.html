@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Constructors</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <form id="form">
+          <label for="author">
+            <span>Author</span>
+            <select id="author" name="author">
+              <option value="Taras Shevchenko">Taras Shevchenko</option>
+              <option value="Ivan Franko">Ivan Franko</option>
+              <option value="Vasyl Stys">Vasyl Stys</option>
+              <option value="Oles Gonchar">Oles Gonchar</option>
+            </select>
+          </label>
+
+          <label for="message">
+            <span>Message</span>
+            <textarea placeholder="Your Message" id="message"></textarea>
+          </label>
+
+          <button type="submit">Send Message</button>
+        </form>
+      </header>
+
+      <section>
+        <ul id="message_list">
+          <!-- <li style="margin: 15px;">
+            <div class="message__date">
+              27/01/2018
+            </div>
+            <div class="message__author">
+              <b>Ivan Franko</b>
+            </div>
+            <div class="message__text">
+              Ночі безмірнії, ночі безсоннії...
+            </div>
+            <div class="message__controls">
+              <button class="_skipMessage">Skip</button>
+              <button class="_answerMessage">Answer</button>
+            </div>
+        </li> -->
+        </ul>
+      </section>
+    </div>
+
+    <script>
+      /*
+    Задание на классы.
+
+    Создать класс Message конструктор котрого состоит из следующих полей:
+    id, author, text, date, answers
+
+    У этого класса будет два метода:
+    SkipMessage() -> которое должно найти сообщение и удалить его из массива.
+    AnswerMessage()-> должно отрыть поле ввода, в который вы сможете ввести ответ
+    SendAnswer() -> метод который «отравляет» ответ, при этом обновляя поле ответа(answers) в вашем объекте с сообщением.
+
+    В метод SendAnswer нужно передать обьект класса Answer который наследуется от класса Message,
+    Но еще дополнительно будет иметь поле parentId.
+
+
+    message = {
+      id: '',
+      author: '',
+      text: '',
+      date: '',
+      answers: [
+        {
+          id: '',
+          author: '',
+          text: '',
+          date: '',
+          parentId: '',
+          answers: ''
+        }
+      ]
+    }
+
+    +Bonus: После создании сообщение добавляется в массив со всеми сообщениями, которые потом будут выводится на экран.
+
+    _ _ _
+
+    Задание можно разбелить на две части:
+      1. Создание самого сообщения:
+      id->выдаётся автоматом
+      Author-> селект с выбором автора
+      Text -> текст сообщения
+      date -> автоматически в момент создания
+
+      Все данные беруться с формы. Массив с сообщениями передается в функцию рендера, которая генерирует сам список.
+
+			2. Ответ на сообщение */
+			
+			const messagesListNode = document.getElementById("message_list");
+			let messagesList = [];
+
+      class Message {
+        constructor(text, author, date) {
+          const dateNow = new Date();
+
+          this.date = date || `${dateNow.getDate()}/${dateNow.getMonth() + 1}/${dateNow.getFullYear()}`;
+          this.author = author;
+					this.text = text;
+					this.id = Date.now();
+					this.answers = [];
+				}
+				skipMessage = () => {
+					messagesList = messagesList.filter(msg => msg.id !== this.id);
+					renderMessagesList(messagesList);
+				};
+				answerMessage = () => {
+					const answerForm = document.createElement("div");
+								answerForm.style = "margin: 7px 0 0 40px; display: flex; flex-direction: column; align-items: flex-start;";
+								answerForm.id = "answerForm";
+
+					const textArea = document.createElement("textarea");
+
+					const submit = document.createElement("button");
+								submit.textContent = "Send answer";
+								submit.addEventListener("click", this.sendAnswer)
+
+					answerForm.appendChild(textArea);
+					answerForm.appendChild(submit);
+
+					document.querySelector(`li[data-id="${this.id}"]`).appendChild(answerForm);
+				}
+				renderAnswers = parentId => {
+					const parentLi = document.querySelector(`li[data-id="${parentId}"`);
+					parentLi.contains(document.getElementById("answersList")) && document.getElementById("answersList").remove();
+
+					const answersListNode = document.createElement("ul");
+								answersListNode.id = "answersList";
+								answersListNode.style.marginTop = "15px";
+					
+
+					parentLi.appendChild(answersListNode);
+					this.answers.forEach(({ text }) => {
+						answersListNode.innerHTML += `
+								<li>${text}</li>
+						`
+					})
+				}
+				sendAnswer = () => {
+					const answerText = document.querySelector("#answerForm textarea").value;
+					const answer = new Answer(answerText, this.id);
+					this.answers.push(answer);
+					this.renderAnswers(answer.parentId);
+					document.getElementById("answerForm").remove();
+				};
+			}
+			
+			class Answer extends Message {
+				constructor(text, parentId) {
+					super(text);
+					this.parentId = parentId;
+				}
+			}
+
+
+  		const initialComment = new Message(
+        "Ivan Franko",
+        "Ночі безмірнії, ночі безсоннії...",
+        "27/01/2019"
+			);
+
+			const renderMessagesList = list => {
+				messagesListNode.innerHTML = "";
+				list.forEach(msg => {
+					messagesListNode.innerHTML += `
+						<li data-id=${msg.id} style="margin: 15px;">
+							<div class="message__date">
+								${msg.date}
+							</div>
+							<div class="message__author">
+								<b>${msg.author}</b>
+							</div>
+							<div class="message__text">
+								${msg.text}
+							</div>
+							<div class="message__controls">
+								<button class="button_skip">Skip</button>
+								<button class="button_answer">Answer</button>
+							</div>
+						</li>
+					`
+					if (list.indexOf(msg) === list.length - 1) {
+						document.querySelectorAll(".button_skip").forEach((btn, index) => btn.addEventListener("click", () => {
+							messagesList[index].skipMessage();
+						}));
+						document.querySelectorAll(".button_answer").forEach((btn, index) => btn.addEventListener("click", () => {
+							messagesList[index].answerMessage();
+						}));
+					}
+				});
+			};
+			
+			messagesList = [initialComment];
+
+			document.getElementById("form").addEventListener("submit", e => {
+				e.preventDefault();
+				const author = document.querySelector("#form #author").value;
+				let text = document.querySelector("#form #message").value;
+				let message = new Message(text, author);
+				messagesList.push(message);
+				renderMessagesList(messagesList);
+				document.querySelector("#form #message").value = "";
+			})
+
+			renderMessagesList(messagesList);
+
+			
+      
+    </script>
+  </body>
+</html>

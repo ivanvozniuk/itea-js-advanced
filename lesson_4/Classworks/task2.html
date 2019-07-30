@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Form work1</title>
+  <script>
+    /*
+      Задание:
+        Сделать шаблонизатор элемента по:
+        Ширине input type=range
+        Цвету  input type=color
+        Высоте input type=number
+        Скругление углов input type=number
+        Margin input type=number
+
+      Свойсвта: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference
+
+        + Сделать выборку цвета из рандомных 20 цветов которые выбираются из появившегося блока :
+        https://s3.envato.com/files/230412754/screenshots/1.png
+        За заготовку для рандома цвета использовать функцию из первых занятий.
+
+    */
+
+    window.addEventListener("load", function () {
+			const result = document.getElementById("result");
+			const modal = document.querySelector(".modal");
+			const closeModalButton = document.querySelector(".modal__close");
+			const modalColorsBlock = document.querySelector(".modal__colors-block");
+			const colorInput = document.getElementById("myColor");
+
+			const generateRandomHEX = () => "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+			// valid HEX
+
+			function initializeHandleRangeInput(id) {
+				let range = document.getElementById(id);
+				result.style[range.dataset.style] = range.value + "px";
+				handleRangeInput(id)
+			}
+
+			function handleRangeInput(id) {
+				document.getElementById(id).addEventListener("input", function(e) {
+					result.style[e.target.dataset.style] = e.target.value + "px";
+				})
+			}
+			initializeHandleRangeInput("myWidth");
+			initializeHandleRangeInput("myHeight");
+			initializeHandleRangeInput("myBorderRadius");
+			initializeHandleRangeInput("myPadding");
+
+			colorInput.addEventListener("click", function(e) {
+				e.preventDefault();
+				modal.classList.add("active");
+				generateColoredBlocks(20)
+			})
+
+			function closeModal() {
+				modal.classList.remove("active");
+				modalColorsBlock.innerHTML = "";
+			}
+
+			closeModalButton.addEventListener("click", closeModal);
+
+			
+			function generateColoredBlocks(number) {
+				for (let i = 0; i < number; i++) {
+					const colorBlock = document.createElement("div");
+								colorBlock.classList.add("circle");
+								colorBlock.style.background = generateRandomHEX();
+								colorBlock.dataset.color = generateRandomHEX();
+					modalColorsBlock.appendChild(colorBlock);
+				}
+				let circles = document.querySelectorAll(".circle");
+				circles.forEach(circle => circle.addEventListener("click", function() {
+					colorInput.value = circle.style.background;
+					result.style.background = circle.style.background;
+					closeModal();
+					console.log(colorInput.value)
+				}))
+				
+				// result.style.backgroundColor = colorInput.value;
+			}
+    });
+
+  </script>
+</head>
+<body>
+  <div class="Templating">
+    <form>
+			<label>
+				Width:
+				<input type="range" id="myWidth" data-style="width" min="10" max="500" step="10"/>
+			</label>
+			<label>
+				Color:
+				<input type="color" id="myColor" min="10" max="500" step="10"/>
+			</label>
+			<label>
+				Height:
+				<input type="range" id="myHeight" data-style="height" min="10" max="500" step="10"/>
+			</label>
+      <label>
+				Border-radius:
+				<input type="range" id="myBorderRadius" data-style="borderRadius" min="10" max="300" step="10"/>
+			</label>
+      <label>
+				Padding:
+				<input type="range" data-style="padding" id="myPadding" min="10" max="500" step="10"/>
+			</label>
+    </form>
+
+    <div class="TemplatingResult">
+      <div id="result" class="result"></div>
+		</div>
+	</div>
+	
+	<div class="modal">
+		<div class="modal__body">
+			<h1>Pick your colors</h1>
+			<div class="modal__colors-block">
+
+			</div>
+			<div class="modal__close">X</div>
+		</div>
+		
+	</div>
+
+  <style>
+		body {
+			font-family: Roboto, sans-serif;
+		}
+		.modal__colors-block {
+			display: flex;
+			flex-wrap: wrap;
+		}
+		.modal {
+			display: none;
+			background: rgba(0,0,0,.7);
+			width: 100%;
+			height: 100vh;
+			position: absolute;
+			left: 0;
+			top: 0;
+			align-items: center;
+			justify-content: center;
+		}
+		.modal__close {
+			position: absolute;
+			right: 25px;
+			top: 25px;
+			font-weight: bold;
+			font-size: 30px;
+			cursor: pointer;
+		}
+		.modal h1 {
+			text-align: center;
+		}
+		.modal__body {
+			position: relative;
+			width: 50%;
+			height: 70vh;
+			background: #fff;
+			padding: 25px;
+		}
+		body .modal.active {
+			display: flex;
+		}
+    #colors{
+      width: 200px;
+
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .result{
+      width: 50px;
+      background: black;
+      box-sizing: border-box;
+      padding: 10px;
+			margin: 15px;
+    }
+    #MyValidateForm{
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #MyValidateForm input{
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      padding: 10px 20px;
+    }
+    .circle{
+      width: 65px;
+      height: 65px;
+      background: #eee;
+			margin: 15px;
+      border-radius: 50%;
+			cursor: pointer;
+    }
+  </style>
+</body>
+</html>

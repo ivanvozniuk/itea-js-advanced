@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Constructors</title>
+</head>
+<body>
+  <div class="wrap"></div>
+  <script>
+  /*
+
+    Задание:
+
+    Написать функцию конструктор, которая будет иметь приватные и публичные свойства.
+    Публичные методы должны вызывать приватные.
+
+    Рассмотрим на примере планеты:
+
+      - На вход принимаются параметр Имя планеты.
+
+      Создается новый обьект, который имеет публичные методы и свойства:
+      - name (передается через конструктор)
+      - population ( randomPopulation());
+      - rotatePlanet(){
+        let randomNumber = Math.floor(Math.random() * (1000 - 1 + 1)) + 1;
+        if ( (randomNumber % 2) == 0) {
+          growPopulation();
+        } else {
+          Cataclysm();
+        }
+      }
+
+      Приватное свойство:
+      populationMultiplyRate - случайное число от 1 до 10;
+
+      Приватные методы
+      randomPopulation -> Возвращает случайное целое число от 1.000 до 10.000
+      growPopulation() {
+        функция которая берет приватное свойство populationMultiplyRate
+        которое равняется случайному числу от 1 до 10 и умножает его на 100.
+        Дальше, число которое вышло добавляет к популяции и выводит в консоль сообщение,
+        что за один цикл прибавилось столько населения на планете .
+      }
+      Cataclysm(){
+        Рандомим число от 1 до 10 и умножаем его на 250;
+        То число которое получили, отнимаем от популяции.
+        В консоль выводим сообщение - от катаклизма погибло Х человек на планете.
+      }
+
+  */
+
+	function Planet(name) {
+		const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+		const randomPopulation = () => getRandomInt(1000, 10000);
+		const populationMultiplyRate = getRandomInt(1, 10);
+		
+		const cataclysm = () => {
+			const deadPartOfPopulation = getRandomInt(1, 10) * 250;
+			this.population -= deadPartOfPopulation;
+			console.log(`За один оборот планеты умерли ${deadPartOfPopulation} человек, общее количество: ${this.population}`);
+		}
+
+		const growPopulation = () => {
+			const newPartOfPopulation = getRandomInt(1, 10) * 100;
+			this.population += newPartOfPopulation;
+			console.log(`За один оборот планеты появилось ${newPartOfPopulation} человек, общее количество: ${this.population}`);
+		}
+
+		this.name = name;
+		this.population = randomPopulation();
+		this.rotatePlanet = function() {
+			getRandomInt(0, 1000) % 2 === 0 ? growPopulation() : cataclysm();
+		}
+		
+	}
+
+	const jupiter = new Planet("Jupiter");
+	jupiter.rotatePlanet()
+  </script>
+</body>
+</html>

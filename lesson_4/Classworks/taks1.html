@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Forms Task 1</title>
+</head>
+<body>
+  <form id="MyValidateForm">
+    <input type="text" name='login' placeholder="Ваш логин" />
+    <input type="password" name='pas1' placeholder="Ваш пароль" />
+    <input type="password" name='pas2' placeholder="Повторите пароль" />
+    <label for="agree">
+      <span>Вы согласны с лицензионым соглашением.</span>
+      <input type="checkbox" id="agree" />
+    </label>
+    <input type="submit" id="submit" value="Отправить" disabled />
+	</form>
+  <style>
+    #MyValidateForm{
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #MyValidateForm input{
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      padding: 10px 20px;
+    }
+	</style>
+	 <script>
+    /*
+      Задание:
+        Сделать валидацию формы:
+        1. Логин / Пароль не может быть пустым
+        2. Пароли должны совпадть
+        3. Пока не стоит что юзер согласен с лиц. соглашением - кнопка отправки не активна
+
+        + бонус - то поле, которое не прошло валидацию подсвечивать красным.
+                - которое прошло - подсвечивать зеленым.
+    */
+		
+const form = document.getElementById("MyValidateForm");
+const login = form.querySelector("input[name='login']");
+const password = form.querySelector("input[name='pas1']");
+const repeatPassword = form.querySelector("input[name='pas2']");
+
+document.getElementById("agree").addEventListener("change", function() {
+	submit.disabled = !submit.disabled;
+	if (submit.disabled) {
+		submit.removeEventListener("click", validateForm);
+	}
+})
+
+form.addEventListener("submit", validateForm)
+
+function colorBorder(color, ...elements) {
+	elements.forEach(elem => elem.style.border = `1px solid ${color}`);
+}
+
+function validateForm(e) {
+	login.value.length ? colorBorder("green", login) : colorBorder("red", login);
+
+	repeatPassword.value === password.value ? colorBorder("green", repeatPassword) : colorBorder("red", repeatPassword);
+
+	password.value.length ? colorBorder("green", password) : colorBorder("red", password, repeatPassword);
+
+	if (!(login.value.length && repeatPassword.value === password.value && password.value.length)) {
+		e.preventDefault();
+	}
+}
+		
+  </script>
+</body>
+</html>

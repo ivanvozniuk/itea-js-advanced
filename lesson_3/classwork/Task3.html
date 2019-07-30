@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Task 3</title>
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="wrap" id="wrap">
+      <h1>Переключение слайдера</h1>
+      <div class="roadMap__container yellow">
+        <button class="navButton" data-direction="<"> Prev </button>
+        <div class="roadMap">
+          <div class="roadMapPoint" data-id="1"></div>
+          <div class="roadMapPoint ball" data-id="2"></div>
+          <div class="roadMapPoint" data-id="3"></div>
+          <div class="roadMapPoint" data-id="4"></div>
+          <div class="roadMapPoint" data-id="5"></div>
+          <div class="roadMapPoint" data-id="6"></div>
+          <div class="roadMapPoint" data-id="7"></div>
+          <div class="roadMapPoint" data-id="8"></div>
+        </div>
+        <button class="navButton" data-direction=">"> Next </button>
+      </div>
+
+      <div class="roadMap__container red">
+        <button class="navButton" data-direction="<"> Prev </button>
+        <div class="roadMap">
+          <div class="roadMapPoint" data-id="1"></div>
+          <div class="roadMapPoint" data-id="2"></div>
+          <div class="roadMapPoint ball" data-id="3"></div>
+          <div class="roadMapPoint" data-id="4"></div>
+        </div>
+        <button class="navButton" data-direction=">"> Next </button>
+      </div>
+
+      <div class="roadMap__container blue">
+        <button class="navButton" data-direction="<"> Prev </button>
+        <div class="roadMap">
+          <div class="roadMapPoint" data-id="1"></div>
+          <div class="roadMapPoint ball" data-id="2"></div>
+          <div class="roadMapPoint" data-id="3"></div>
+          <div class="roadMapPoint" data-id="4"></div>
+        </div>
+        <button class="navButton" data-direction=">"> Next </button>
+      </div>
+
+
+      <div class="roadMap__container red">
+          <button class="navButton" data-direction="<"> Prev </button>
+          <div class="roadMap">
+            <div class="roadMapPoint" data-id="1"></div>
+            <div class="roadMapPoint" data-id="2"></div>
+            <div class="roadMapPoint ball" data-id="3"></div>
+            <div class="roadMapPoint" data-id="4"></div>
+          </div>
+          <button class="navButton" data-direction=">"> Next </button>
+        </div>
+  
+        <div class="roadMap__container blue">
+          <button class="navButton" data-direction="<"> Prev </button>
+          <div class="roadMap">
+            <div class="roadMapPoint" data-id="1"></div>
+            <div class="roadMapPoint ball" data-id="2"></div>
+            <div class="roadMapPoint" data-id="3"></div>
+            <div class="roadMapPoint" data-id="4"></div>
+          </div>
+          <button class="navButton" data-direction=">"> Next </button>
+        </div>
+
+    </div>
+    <script>
+
+      /*
+        Задание:
+
+        Написать скрипт, который будет приводить в действие переключалки из разметки.
+        И будет перемещать класс ball по точкам в зависимости от нажатой кнопки
+
+      */
+
+      var containers = document.querySelectorAll('.roadMap__container');
+          containers.forEach( function( container ){
+            const buttons = container.querySelectorAll(".navButton");
+						
+						function moveBall(e) {
+							let ball = container.querySelector('.ball');
+							let ballId = +ball.dataset.id;
+							
+							if (e.target.dataset.direction === "<") {
+								if (ballId == 1) {
+									ballId = container.querySelectorAll(".roadMapPoint").length + 1;
+								}
+								let nextBall = container.querySelector(`.roadMapPoint[data-id="${ballId - 1}"]`);
+								ball.classList.remove("ball");
+								nextBall.classList.add("ball");
+							}
+							else if (e.target.dataset.direction === ">") {
+								if (ballId == container.querySelectorAll(".roadMapPoint").length) {
+									ballId = 0;
+								}
+								let nextBall = container.querySelector(`.roadMapPoint[data-id="${ballId + 1}"]`);
+								ball.classList.remove("ball");
+								nextBall.classList.add("ball");
+							}
+						}
+
+						buttons.forEach(btn => btn.addEventListener("click", moveBall));
+					})
+			
+			
+			
+
+			
+
+			
+
+    </script>
+  </body>
+
+</html>

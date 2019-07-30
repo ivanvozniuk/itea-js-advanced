@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Classwork</title>
+
+    <script>
+    /*
+      Задание:
+        1. Используя интерфейс который есть на страничке, написать визуальный
+        конструктор обектов используя значение key-value, которые вводятся в
+        соответствующие поля в форме.
+
+        2. Каждый созданый обьект выводить в тег code после добавления каждого
+        нового поля. Т.е мы должны визуально видить в каком состоянии наши обьекты
+        сейчас
+
+        3. По нажатию кнопки Combine Objects! два обьекта должны обьедениться
+        используя метод Object.assing или spread operator и вывестись на стринчку.
+
+        * Изменять HTML можно.
+    */
+		document.addEventListener("DOMContentLoaded", function() {
+			const objects = [
+				{
+					id: 1,
+					value1: "test"
+				},
+				{
+					id: 2,
+					value2: "lang"
+				}
+			]
+			const printObject = (obj, parent) => {
+				parent.innerHTML = "";
+				let counter = 0;
+				for (let key in obj) {
+					parent.innerHTML += `
+					${counter === 0 ? "{<br>" : ""}
+						${key}: ${obj[key]}${counter !== Object.keys(obj).length - 1 ? "," : ""}<br>
+					${counter === Object.keys(obj).length - 1 ? "}" : ""}`
+					
+					counter++;
+				}
+			}
+			const printObjectsArray = objects => {
+				objects.forEach((obj, index) => printObject(obj, document.querySelectorAll(".createdObj")[index]))
+			} 
+			
+			const formHandler = (e, form, obj) => {
+				console.log(form.elements.key.value)
+				e.preventDefault();
+				let key = form.elements.key.value;
+				let value = form.elements.value.value;
+				obj[key] = value;
+				form.elements.key.value = "";
+				form.elements.value.value = "";
+			}
+			const forms = document.querySelectorAll(".ObjForm");
+		
+			for (let i = 0; i < forms.length; i++) {
+				forms[i].addEventListener("submit", e => {
+					formHandler(e, forms[i], objects[i]);
+					printObjectsArray(objects)
+				})
+			}
+
+			printObjectsArray(objects);
+
+			document.querySelector(".resultBlock button").addEventListener("click", function() {
+				const assignedObject = {
+					...objects[0],
+					...objects[1]
+				}
+				printObject(assignedObject, document.getElementById("result"))
+			})
+		})
+		
+    </script>
+</head>
+<body>
+  <div class="wrap">
+      <div class="assigned">
+        <form class="ObjForm">
+            <input name="key" placeholder="Enter your key"/>
+            <input name="value" placeholder="Enter your value"/>
+            <button type="submit">Send</button>
+        </form>
+        <div class="createResult">
+          <header>
+            Created Object
+          </header>
+          <div class="createdObj">
+            <code>
+            </code>
+          </div>
+        </div>
+      </div>
+
+      <div class="assigned">
+        <form class="ObjForm">
+            <input name="key" placeholder="Enter your key"/>
+            <input name="value" placeholder="Enter your value"/>
+            <button type="submit">Send</button>
+          </form>
+          <div class="createResult">
+            <header>
+              Created Object
+            </header>
+            <div class="createdObj">
+              <code>
+              </code>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="resultBlock">
+       <button>Combine Objects!</button>
+      <h3> Result: </h3>
+      <div id="result"></div>
+    </div>
+
+      <script>
+
+      </script>
+      <style>
+        .wrap{
+          /* width: 800px; */
+          display: flex;
+        }
+				.createResult {
+					min-width: 200px;
+				}
+        .ObjForm,
+        .resultBlock{
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          box-sizing: border-box;
+          padding: 10px 20px;
+        }
+
+        .assigned{
+          min-width: 300px;
+          display: flex;
+        }
+        .createResult header{
+          font-weight: 700;
+        }
+      </style>
+</body>
+</html>

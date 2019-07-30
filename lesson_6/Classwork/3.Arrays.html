@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Classwork</title>
+		<body>
+
+		</body>
+    <script>
+
+    /*
+      Задание:
+      1. При помощи методов изложеных ниже, переформатировать ITEA_COURSES в массив который содержит длину строк каждого из элементов.
+      2. Самостоятельно изучить метод Array.sort. Отфильтровать массив ITEA_COURSES по алфавиту.
+          + Бонусный бал. Вывести на страничку списком
+      3. Реализация функции поиска по массиву ITEA_COURSES.
+          + Бонусный бал. Вывести на страничку инпут и кнопку по которой будет срабатывать поиск.
+    */
+
+		const ITEA_COURSES = ["Курс HTML & CSS", "JavaScript базовый курс", "JavaScript продвинутый курс", "JavaScript Professional", "Angular 2.4 (базовый)", "Angular 2.4 (продвинутый)", "React.js", "React Native", "Node.js", "Vue.js"];
+		
+		const ITEA_COURSES_ITEMS_LENGTH = ITEA_COURSES.map(item => item.length);
+		console.log(ITEA_COURSES_ITEMS_LENGTH)
+
+		const ITEA_COURSES_SORTED_BY_ALPHABET = ITEA_COURSES.sort()
+
+		const searchInput = document.createElement("input");
+					searchInput.placeholder="Find your course";
+					searchInput.addEventListener("input", ({ target: { value } }) => {
+						const searchedArray = ITEA_COURSES_SORTED_BY_ALPHABET.filter(item => item.toLowerCase().includes(value.toLowerCase()));
+						coursesList.innerHTML = "";
+						searchedArray.forEach(item => coursesList.innerHTML += `<li>${item}</li>`)
+					})
+		
+		document.body.appendChild(searchInput);
+
+		const coursesList = document.createElement("ul");
+		document.body.appendChild(coursesList);
+		
+		ITEA_COURSES_SORTED_BY_ALPHABET.forEach(item => coursesList.innerHTML += `<li>${item}</li>`)
+
+    /*
+      Задание 2:
+      Написать фильтр массива по:
+      Актеру, продолжительности
+
+      Бонус:
+        Сделать графическую оболочку для программы:
+        - Селект со списком актеров
+        - Селект или инпут с продолжительностью
+        - Результат в виде списка фильмов
+    */
+
+      var stars = ['Elijah Wood', 'Ian McKellen', 'Orlando Bloom','Ewan McGregor','Liam Neeson', 'Natalie Portman', 'Ewan McGregor', 'Billy Bob Thornton', 'Martin Freeman']
+      var movies = [
+            {
+              name: "Lord of the Rigs",
+              duration: 240,
+              starring: [ 'Elijah Wood', 'Ian McKellen', 'Orlando Bloom']
+            },
+            {
+              name: "Star Wars: Episode I - The Phantom Menace",
+              duration: 136,
+              starring: [ 'Ewan McGregor','Liam Neeson', 'Natalie Portman']
+            },
+            {
+              name: "Fargo",
+              duration: 100,
+              starring: [ 'Ewan McGregor', 'Billy Bob Thornton', 'Martin Freeman']
+            },
+            {
+							name: "V for Vendetta",
+							duration: 150,
+							starring: [ 'Hugo Weaving', 'Natalie Portman', 'Rupert Graves']
+						}
+        ];
+				
+				//by duration
+				const moviesFilteredByDuration = movies.slice().sort((a, b) => a.duration - b.duration);
+				console.log("duration", moviesFilteredByDuration);
+
+				//by starring (first filter every starring array in movies, then sort movies by first actor)
+
+				const moviesWithFilteredStarring = movies.map(movie => ({
+					...movie,
+					starring: movie.starring.sort()
+				}));
+				console.log("filtered starring", moviesWithFilteredStarring);
+
+				const moviesFilteredByStarring = moviesWithFilteredStarring.sort((a, b) => {
+					if (a.starring[0] < b.starring[0])
+						return -1;
+					if (a.starring[0] > b.starring[0])
+						return 1;
+					return 0;
+				})
+				console.log("filtered by starring", moviesFilteredByStarring);
+
+				// interface
+				
+				const createFirstOptions = (text, select) => {
+					const optionDisabled = new Option(text, text, true, true);
+								optionDisabled.style.display = "none";
+								optionDisabled.disabled = true;
+					const optionAny = new Option("Any", "Any");
+					select.appendChild(optionDisabled);
+					select.appendChild(optionAny);
+				}
+
+				const pickFilmForm = document.createElement("form");
+				document.body.appendChild(pickFilmForm)
+
+				const selectActors = document.createElement("select");
+							selectActors.name = "actor";
+				createFirstOptions("Choose actor", selectActors);
+				stars.forEach(star => selectActors.appendChild(new Option(star, star)));
+				pickFilmForm.appendChild(selectActors);
+
+				const selectDuration = document.createElement("select");
+							selectDuration.name = "duration";
+				createFirstOptions("Choose duration", selectDuration);
+				moviesFilteredByDuration.forEach(({ duration }) => selectDuration.appendChild(new Option(duration, duration)));
+				pickFilmForm.appendChild(selectDuration);
+
+				const submit = document.createElement("input");
+							submit.type = "submit";
+							submit.value = "Pick films";
+				pickFilmForm.appendChild(submit);
+
+				const filmsTitle = document.createElement("h4");
+							filmsTitle.textContent = "Films by your options:";
+				pickFilmForm.appendChild(filmsTitle);
+
+				const filmsList = document.createElement("ul");
+				pickFilmForm.appendChild(filmsList);
+
+				pickFilmForm.addEventListener("submit", e => {
+					e.preventDefault();
+					filmsList.innerHTML = "";
+					const duration = pickFilmForm.elements.duration.value === "Any"
+						? "Any"
+						: Number(pickFilmForm.elements.duration.value);
+						
+					const actor = pickFilmForm.elements.actor.value;
+
+					console.log(actor === "Any" && duration === "Any")
+
+					const films = movies.filter(movie => {
+						if (duration === "Any" && actor === "Any") {
+							return movie;
+						}
+						else if (duration === "Any") {
+							return movie.starring.includes(actor);
+						}
+						else if (actor === "Any") {
+							return movie.duration === duration;
+						}
+						else {
+							return movie.duration === duration && movie.starring.includes(actor);
+						}
+						
+					});
+
+					films.forEach(({ name }) => {
+						filmsList.innerHTML += `<li>${name}</li>`
+					})
+					
+				})
+				
+				
+    </script>
+</head>
+<body>
+  
+</body>
+</html>
