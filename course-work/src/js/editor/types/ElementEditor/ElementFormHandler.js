@@ -18,10 +18,10 @@ export default class ElementFormHandler {
 			));
 			const elementsFormCarousel = elems => elems.filter(elem => elem.dataset.type === "carousel");
 
-			elementsFormWithoutCarouselAndSubmitButton([...ElementForm.elements]).forEach(({ id, value }) => {
+			elementsFormWithoutCarouselAndSubmitButton([...ElementForm.elements]).forEach(({ dataset, value }) => {
 				this.changes.push({
 					id: targetId,
-					[id]: value
+					[dataset.style]: value
 				})
 			});
 
@@ -37,7 +37,6 @@ export default class ElementFormHandler {
 						return checked
 				}
 			 })
-			 console.log(carouselElements);
 
 			carouselElements.length && (
 				localStorage.setItem("carouselSettings", JSON.stringify(carouselElements))
@@ -56,6 +55,11 @@ export default class ElementFormHandler {
 						setStyles(target, key, (props[key] + "px"))
 						break;
 					case "src":
+						if (target.dataset.editableType == "carousel") {
+							target.querySelectorAll("img").forEach(img => {
+								setStyles(img, key, `/static/${props[key].slice(12)}`)
+							})
+						}
 						setStyles(target, key, `/static/${props[key].slice(12)}`) 
 						break;
 					default:

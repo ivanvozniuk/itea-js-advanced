@@ -10,8 +10,8 @@ export default class TextStyle {
 	render() {
 		return `
 			<div class="form-group">
-				<label for="style.fontWeight">Font weight</label>
-				<select class="custom-select" id="style.fontWeight">
+				<label>Font weight</label>
+				<select class="custom-select" data-style="style.fontWeight">
 					${this.fontWeights.map(item => {
 						return `<option ${item == this.currentFontWeight && "selected"} value=${item}>${item}</option>`
 					})};
@@ -20,7 +20,7 @@ export default class TextStyle {
 		`
 	}
 	handleBindInputData() {
-		const fontWeightInput = document.getElementById("style.fontWeight");
+		const fontWeightInput = document.querySelector("select[data-style='style.fontWeight']");
 		BindInputData(fontWeightInput, this.target, "style.fontWeight", "number");
 	}
 }

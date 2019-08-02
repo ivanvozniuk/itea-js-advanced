@@ -13,14 +13,15 @@ export default class FontSize {
 					type="number"
 					min="0" 
 					max="300" 
-					class="form-control" id="style.borderRadius" 
+					class="form-control"
+					data-style="style.borderRadius"
 					value=${this.borderRadius} 
 				/>
 			</div>
 		`
 	}
 	handleBindInputData() {
-		const fontSizeInput = document.getElementById("style.borderRadius");
+		const fontSizeInput = document.querySelector("input[data-style='style.borderRadius']");
 		BindInputData(fontSizeInput, this.target, "style.borderRadius", "pixels");
 	}
 }

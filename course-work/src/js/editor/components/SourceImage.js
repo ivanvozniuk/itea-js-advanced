@@ -1,22 +1,30 @@
 import BindInputData from "../functions/BindInputData";
 
-export default class FontSize {
-	constructor(target) {
+export default class SourceImage {
+	constructor(target, carousel = false) {
 		this.target = target;
 		this.image = target.src;
+		this.carousel = carousel;
 	}
 	render() {
 		return `
-			<div class="form-group">
+			<div class="form-group" data-alt="${this.target.alt}">
 				<label for="src">Image:</label>
 				<img src=${this.image} style="max-width: 200px" />
-				<input type="file" id="src" />
+				<input data-style="src" type="file" />
 			</div>
 			
 		`
 	}
 	handleBindInputData() {
-		const imageInput = document.querySelector(".edit-menu__element-content #src");
-		BindInputData(imageInput, this.target, "src", "image");
+		if (this.carousel) {
+			const input = document.querySelector(`.form-group[data-alt='${this.target.alt}'] input[data-style='src']`);
+			BindInputData(input, this.target, "src", "image")
+		}
+		else {
+			const input = document.querySelector("input[data-style='src']");
+			BindInputData(input, this.target, "src", "image")
+		}
+		
 	}
 }

@@ -9,12 +9,19 @@ export default class FontSize {
 		return `
 			<div class="form-group">
 				<label for="style.fontSize">Font size</label>
-				<input type="number" min="8" max="100" class="form-control" id="style.fontSize" value=${this.fontSize} />
+				<input 
+					type="number" 
+					min="8" 
+					max="100" 
+					class="form-control" 
+					data-style="style.fontSize" 
+					value=${this.fontSize} 
+				/>
 			</div>
 		`
 	}
 	handleBindInputData() {
-		const fontSizeInput = document.getElementById("style.fontSize");
+		const fontSizeInput = document.querySelector("input[data-style='style.fontSize']");
 		BindInputData(fontSizeInput, this.target, "style.fontSize", "pixels");
 	}
 }

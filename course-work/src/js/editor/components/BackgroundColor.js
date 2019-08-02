@@ -11,12 +11,12 @@ export default class BackgroundColor {
 		return `
 			<div class="form-group">
 				<label for="style.backgroundColor">Background</label>
-				<input type="color" class="form-control" id="style.backgroundColor" value=${this.backgroundColor} />
+				<input type="color" class="form-control" data-style="style.backgroundColor" value=${this.backgroundColor} />
 			</div>
 		`
 	}
 	handleBindInputData() {
-		const backrgoundColorInput = document.getElementById("style.backgroundColor");
+		const backrgoundColorInput = document.querySelector("input[data-style='style.backgroundColor']");
 		BindInputData(backrgoundColorInput, this.target, "style.backgroundColor");
 	}
 }

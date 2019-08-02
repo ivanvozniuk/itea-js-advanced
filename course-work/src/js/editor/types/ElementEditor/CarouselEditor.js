@@ -1,6 +1,7 @@
 import Carousel from "../../components/Carousel";
 import Opacity from "../../components/Opacity";
 import BorderRadius from "../../components/BorderRadius";
+import SourceImage from "../../components/SourceImage"
 
 export default class CarouselEditor {
 	constructor(target, editorContent) {
@@ -20,6 +21,12 @@ export default class CarouselEditor {
 			const type = new Type(this.target);
 			type.handleBindInputData();
 		})
+
+		const images = this.target.querySelectorAll("img");
+		const imagesClasses = [...images].map(img => new SourceImage(img, true));
+
+		imagesClasses.forEach(img => this.editorContent.innerHTML += img.render(img))
+		imagesClasses.forEach(img => img.handleBindInputData())
 	}
 	settings(ride, interval, pause, keyboard) {
 		return {

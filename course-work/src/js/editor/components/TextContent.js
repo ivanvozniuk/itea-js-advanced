@@ -8,13 +8,13 @@ export default class TextContent {
 	render() {
 		return `
 			<div class="form-group full-width no-margin-right">
-				<label for="textContent">Content</label>
-				<textarea class="form-control" id="textContent">${this.textContent}</textarea>
+				<label>Content</label>
+				<textarea class="form-control" data-style="textContent">${this.textContent}</textarea>
 			</div>
 		`
 	}
 	handleBindInputData() {
-		const textContentInput = document.querySelector(".edit-menu__element-content #textContent");
+		const textContentInput = document.querySelector("textarea[data-style='textContent']");
 		BindInputData(textContentInput, this.target, "textContent");
 	}
 }

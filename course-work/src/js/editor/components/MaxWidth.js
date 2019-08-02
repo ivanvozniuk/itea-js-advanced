@@ -16,8 +16,8 @@ export default class MaxWidth {
 					type="range" 
 					min="200" max="1920" 
 					step="1" 
-					class="custom-range" 
-					id="maxWidth" 
+					class="custom-range"  
+					id="maxWidth"
 					value=${this.maxWidth} 
 				/>
 				
@@ -28,7 +28,7 @@ export default class MaxWidth {
 		document.querySelector(".max-width-indicator").textContent = value;
 	}
 	handleBindInputData() {
-		const maxWidthInput = document.querySelector(".edit-menu__main-content #maxWidth");
+		const maxWidthInput = document.getElementById("maxWidth");
 					BindInputData(maxWidthInput, this.targets, "style.maxWidth", "pixels", this.indicateMaxWidthValue);
 	}
 }

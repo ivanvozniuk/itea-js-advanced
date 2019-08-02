@@ -17,7 +17,6 @@ const BindData = (input, target, targetChangingStyle, handleType, callback = () 
 				setStyles(target, targetChangingStyle, (parseInt(input.value)))
 				break;
 			case "image":
-				console.log(input.value)
 				setStyles(target, targetChangingStyle, `/static/${input.value.slice(12)}`) 
 				break;
 			default:

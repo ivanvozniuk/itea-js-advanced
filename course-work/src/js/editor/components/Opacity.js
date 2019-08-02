@@ -14,14 +14,14 @@ export default class Opacity {
 					min="0" max="1" 
 					step="0.01" 
 					class="custom-range" 
-					id="style.opacity" 
-					value=${this.opacity} 
+					value=${this.opacity}
+					data-style="style.opacity" 
 				/>
 			</div>
 		`
 	}
 	handleBindInputData() {
-		const opacityInput = document.getElementById("style.opacity");
+		const opacityInput = document.querySelector("input[data-style='style.opacity']");
 		BindInputData(opacityInput, this.target, "style.opacity",);
 	}
 }

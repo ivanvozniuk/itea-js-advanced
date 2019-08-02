@@ -9,10 +9,10 @@ export default class MainEditor {
 	}
 
 	init() {
-		this.setChangedStyle();
-		this.renderWrapperMaxWidthEditor();
-		this.handleForm();
 		this.handleResetButton();
+		this.renderWrapperMaxWidthEditor();
+		this.setChangedStyle();
+		this.handleForm();
 		this.handleExitButton();
 		
 	}
@@ -45,8 +45,6 @@ export default class MainEditor {
 		mainForm.addEventListener("click", e => {
 			e.preventDefault();
 			const { login, password } = mainForm.elements;
-
-			console.log(login, password);
 
 			localStorage.setItem("containerMaxWidth", document.getElementById("maxWidth").value);
 

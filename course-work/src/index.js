@@ -5,4 +5,4 @@ import "bootstrap";
 import "./css/main.css";
 import "./css/admin.css";
 
-import "./js/admin"
+import "./js/admin";

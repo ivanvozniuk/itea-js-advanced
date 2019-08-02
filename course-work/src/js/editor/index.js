@@ -4,6 +4,7 @@ import MainEditor from "./types/MainEditor/index";
 import ImageEditor from "./types/ElementEditor/ImageEditor";
 import ElementFormHandler from "./types/ElementEditor/ElementFormHandler";
 import CarouselEditor from "./types/ElementEditor/CarouselEditor";
+import BlockEditor from "./types/ElementEditor/BlockEditor"
 import trackEditableNodes from "./functions/trackEditableNodes";
 
 const InitEditor = () => {
@@ -46,6 +47,9 @@ const InitEditor = () => {
 				break;
 			case "image":
 				new ImageEditor(target, editorElementContent).init()
+				break;
+			case "block":
+				new BlockEditor(target, editorElementContent).init()
 				break;
 			case "carousel":
 				new CarouselEditor(target, editorElementContent).init()

@@ -9,13 +9,13 @@ export default class TextColor {
 	render() {
 		return `
 			<div class="form-group">
-				<label for="style.color">Text color</label>
-				<input type="color" class="form-control" id="style.color" value=${this.textColor} />
+				<label>Text color</label>
+				<input type="color" class="form-control" data-style="style.color" value=${this.textColor} />
 			</div>
 		`
 	}
 	handleBindInputData() {
-		const textColorInput = document.getElementById("style.color");
+		const textColorInput = document.querySelector("input[data-style='style.color']");
 		BindInputData(textColorInput, this.target, "style.color");
 	}
 }
