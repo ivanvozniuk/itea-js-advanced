@@ -7,6 +7,15 @@ body.admin {
 	justify-content: center;
 	align-items: center;
 }
+#fontStyle {
+	transition: .7s;
+	border: 5px solid transparent;
+}
+#fontStyle.active {
+	background: #ccc;
+	border-color: #ccc;
+	box-shadow: 0 0 15px #ccc;
+}
 .form-auth {
 	box-shadow: 0 0 30px #ccc;
 	border-radius: 25px;
@@ -17,9 +26,11 @@ body.admin {
 	flex-direction: column;
 	align-items: center;
 }
-.form-group {
-	max-width: 300px;
+.full-width {
 	width: 100%;
+}
+.edit-menu__controls .btn {
+	padding: .5rem .75rem !important;
 }
 .form-auth__heading {
 	margin-bottom: 30px;
@@ -28,56 +39,100 @@ body.admin {
 	margin-top: 20px;
 }
 .translateUpper {
-	margin-top: calc(-100vh + 59px);
+	margin-top: -100vh;
 	transition: 1s;
 }
 .edit-menu {
-	display: flex;
-	align-items: center;
-	padding: 10px 25px 25px;
-	transition: 1s;
-	height: 200px;
-	width: 100%;
+	height: 100vh;
 	position: fixed;
-	bottom: -50%;
-	left: 0;
+	cursor: pointer;
+	transition: 1s;
+	width: 30%;
+	margin-left: -30%;
+	overflow-y: auto;
 	background: #fff;
-	box-shadow:  0 0 40px #363636;
-	border-radius: 25px 25px 0 0;
+	box-shadow:  0 0 20px #606060;
 }
 .edit-menu.open {
-	bottom: 0;
+	margin-left: 0%;
+}
+.edit-menu.open + .layout {
+	margin-left: 30%;
+	width: 70%;
+}
+.layout {
+	width: 100%;
+	transition: 1s;
 }
 .editable {
 	cursor: pointer;
 }
-.editable:hover {
-	outline: 2px solid #ffc107;
+.editable:hover, .editable.active {
+	outline: 2px solid #ffc107 !important;
 	outline-offset: 5px;
-	border-radius: 10px;
-}
-.edit-menu__controls {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	margin-left: auto;
-	height: 100%;
-	align-items: flex-end;
 }
 .edit-menu__close {
 	width: 30px;
 	height: 30px;
+	position: absolute;
+	right: 10px;
+	top: 5px;
 }
 .edit-menu__close:focus {
 	outline: 0;
 }
-.edit-menu__content {
-	display: flex;
-}
-.edit-menu__content .form-group {
-	margin-right: 25px;
-}
 
+.edit-menu__element-content {
+	display: flex;
+	flex-wrap: wrap;
+}
+.edit-menu__element-content .form-group {
+	margin-right: 25px;
+	display: flex;
+	flex-direction: column;
+}
+#textColor {
+	min-width: 80px;
+}
+.tab-pane {
+	padding: 10px 25px;
+	height: 100%;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.tab-content {
+	height: calc(100% - 55px);
+}
+.no-margin-right {
+	margin-right: 0 !important;
+}
+.edit-menu__open {
+	cursor: pointer;
+	transition: .7s;
+	opacity: 0;
+	left: 10px;
+}
+.card-img-top {
+	border-radius: 3px;
+}
+.edit-menu__open.active {
+	opacity: 1;
+}
+.absolute {
+	position: absolute;
+}
+.relative {
+	position: relative;
+}
+.main__buttons-block {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.carousel {
+	padding-top: 10px;
+	overflow: hidden;
+}
 
 @keyframes fadeIn {
 	to {

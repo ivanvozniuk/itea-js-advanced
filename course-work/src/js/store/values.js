@@ -1,0 +1,1 @@
+export const transitionDefault = "1s";
